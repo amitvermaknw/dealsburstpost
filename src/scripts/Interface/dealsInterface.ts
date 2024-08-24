@@ -39,11 +39,11 @@ export type ProductCategory = {
 }
 
 export type DealsReview = {
-    comid: string,
-    userid: string,
+    comId: string,
+    uId: string,
     username: string,
-    startdate: Date,
+    startdate?: Date,
     comments: string,
-    dealsid: string,
-    helpful: number
+    dealsId: string,
+    helpful?: number
 }

@@ -1,16 +1,16 @@
 
-import { NextFunction, Request, Response } from "express";
-import GuestTokenServices from "../services/guestTokenService";
+import { Request, Response } from "express";
+import DealsReviewsService from "../services/dealsReviewsService";
 
-const guestToken = new GuestTokenServices();
+const dealsReviwe = new DealsReviewsService;
 
 class DealsReviews {
-    async getReviewComments(req: Request, res: Response) {
-        return await guestToken.generateToke(req, res);
+    async getReviewCommentsCtr(req: Request, res: Response) {
+        return await dealsReviwe.getReviewComments(req, res);
     }
 
-    async addReviewComments(req: Request, res: Response, next: NextFunction) {
-        return await guestToken.validateToken(req, res, next);
+    async addReviewCommentsCtr(req: Request, res: Response) {
+        return await dealsReviwe.addReviewComments(req.body, res);
     }
 
     // async addAdminLogToken(req: Request, res: Response) {

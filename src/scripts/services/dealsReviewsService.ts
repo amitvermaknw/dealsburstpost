@@ -1,45 +1,45 @@
 
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import Config from "../utils/config";
-import { firebaseConfigKeys } from "../../../firebaseConfig";
-import axios from "axios";
 import "dotenv/config";
 import { QuerySnapshot, DocumentData, QueryDocumentSnapshot } from "firebase-admin/firestore";
 import { DealsReview } from "../Interface/dealsInterface";
 
 const config = new Config();
 const db = config.initConfig().db;
-const admin = config.initConfig().admin;
-const firebaseAPIKey = firebaseConfigKeys.apiKey;
 
 const docPath = process.env.PRODUCT_REVIEWS_COMMENTS as string;
 
 let lastVisibleData: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
 
-class ProductReviewsService {
+class DealsReviewsService {
 
     async getReviewComments(req: Request, res: Response): Promise<Response> {
         try {
-            const pageNo: number = parseInt(req.params.page);
+            const payload = req.body;
+            const pageNo: number = parseInt(payload.page);
             let query: QuerySnapshot<DocumentData, DocumentData> | undefined = undefined;
 
-            if (req.params.state == 'start') {
+            if (payload.state == 'start') {
+                console.log("inside if");
                 query = await db.collection(docPath)
-                    .where("dealsid", "==", req.params.dealsid)
-                    .where("userid", "==", req.params.userid)
-                    .orderBy("comid", "desc")
+                    .where("dealsId", "==", payload.dealsId)
+                    .where("uId", "==", payload.userId)
+                    .orderBy("comId", "desc")
                     .limit(pageNo).get();
-            } else if (req.params.state === 'next') {
+            } else if (payload.state === 'next') {
                 query = await db.collection(docPath)
-                    .where("dealsid", "==", req.params.dealsid)
-                    .where("userid", "==", req.params.userid)
-                    .orderBy("comid", "desc")
+                    .where("dealsId", "==", payload.dealsid)
+                    .where("uId", "==", payload.userid)
+                    .orderBy("comId", "desc")
                     .startAfter(lastVisibleData)
                     .limit(pageNo).get();
             }
             const result: Array<DealsReview> = [];
 
             query?.forEach((doc: { data: () => any, id: string }) => {
+                console.log("inside foreach");
+
                 lastVisibleData = query?.docs[query.docs.length - 1];
                 const documentData = doc.data();
                 documentData['documentId'] = doc.id;
@@ -56,12 +56,38 @@ class ProductReviewsService {
         }
     }
 
-    async addReviewComments(jsonPayload: DealsReview, res: Response) {
-        const snapshot = await db.collection(docPath).add(jsonPayload);
-        if (snapshot.id) {
-            res.status(200).send({ msg: "Deals comment added successfully" });
-        } else {
-            res.status(400).send({ msg: "Error while adding comments transaction" });
+    async addReviewComments(payload: DealsReview, res: Response) {
+        try {
+            console.log("inside add comments")
+            const preRecord = await db.collection(docPath).where("dealsId", "==", payload.dealsId).where("uId", "==", payload.uId).get();
+            let recordFound: FirebaseFirestore.DocumentData | string = ''
+            preRecord.forEach(async (doc) => {
+                recordFound = doc.id;
+            });
+
+            if (recordFound !== '') {
+                const docRef = await db.collection(docPath).doc(recordFound);
+                await docRef.update(payload);
+                if (docRef.id) {
+                    console.log("record updated");
+                    return res.status(200).send({ msg: "success" });
+                } else {
+                    return res.status(400).send({ msg: "failed" });
+                }
+            } else {
+                const snapshot = await db.collection(docPath).add(payload);
+                if (snapshot.id) {
+                    return res.status(200).send({ msg: snapshot.id });
+                } else {
+                    return res.status(400).json({ msg: "Error while adding users details" });
+                }
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                return res.status(500).send({ msg: `Error getting documents: ${error.message}` })
+            } else {
+                return res.status(500).send({ msg: 'An unknow error occured' });
+            }
         }
     }
 
@@ -199,4 +225,4 @@ class ProductReviewsService {
 
 }
 
-export default ProductReviewsService;
+export default DealsReviewsService;
