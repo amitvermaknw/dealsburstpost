@@ -6,7 +6,7 @@ import "dotenv/config";
 
 const config = new Config();
 const db = config.initConfig().db;
-const docPath = process.env.USER_TOKEN_UID as string;
+const docPath = process.env.USER_DETAILS as string;
 
 class UserTokenServices {
     async validateUserToken(req: Request, res: Response, next: NextFunction) {

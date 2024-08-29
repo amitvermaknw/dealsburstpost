@@ -14,6 +14,8 @@ router.get("/guesttoken/validate", guestToken.validateTokenCtr);
 
 router.post("/deals/comments", userToken.validateUserTokenCtr, dealsReview.getReviewCommentsCtr);
 router.post("/deals/review", userToken.validateUserTokenCtr, dealsReview.addReviewCommentsCtr);
+router.post("/deals/review/update", userToken.validateUserTokenCtr, dealsReview.addReviewCommentsCtr);
+
 
 
 export default router;

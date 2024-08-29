@@ -13,6 +13,10 @@ class DealsReviews {
         return await dealsReviwe.addReviewComments(req.body, res);
     }
 
+    async updateHelpfulCtr(req: Request, res: Response) {
+        return await dealsReviwe.updateHelpfulCount(req.body, res);
+    }
+
     // async addAdminLogToken(req: Request, res: Response) {
     //     return await userLogin.addAdminLogToken(req, res);
     // }

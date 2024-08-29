@@ -45,5 +45,8 @@ export type DealsReview = {
     startdate?: Date,
     comments: string,
     dealsId: string,
-    helpful?: number
+    helpful?: number,
+    joinedOn?: Date,
+    photoUrl: string,
+    totalHelpful?: number
 }
