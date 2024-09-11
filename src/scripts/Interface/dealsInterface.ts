@@ -48,5 +48,6 @@ export type DealsReview = {
     helpful?: number,
     joinedOn?: Date,
     photoUrl: string,
-    totalHelpful?: number
+    totalHelpful?: number,
+    wishListDealId?: string
 }

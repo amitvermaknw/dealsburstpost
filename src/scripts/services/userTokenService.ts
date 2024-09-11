@@ -11,8 +11,10 @@ const docPath = process.env.USER_DETAILS as string;
 class UserTokenServices {
     async validateUserToken(req: Request, res: Response, next: NextFunction) {
         const token = req.headers.authorization;
+        const uId = req.headers.uid;
+        console.log("uid", uId);
         try {
-            let query: QuerySnapshot<DocumentData, DocumentData> | undefined = await db.collection(docPath).where("accessToken", "==", token).get();
+            let query: QuerySnapshot<DocumentData, DocumentData> | undefined = await db.collection(docPath).where("accessToken", "==", token).where("uid", "==", uId).get();
 
             if (!query.empty) {
                 console.log("User auth is valid")
