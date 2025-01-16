@@ -5,8 +5,9 @@ import GuestTokenServices from "../services/guestTokenService";
 const guestToken = new GuestTokenServices();
 
 class GuestToken {
-    async generateTokenCtr(req: Request, res: Response) {
-        return await guestToken.generateToke(req, res);
+    async generateTokenCtr(req: Request, res: Response, next: NextFunction) {
+        await guestToken.generateToke(req, res);
+        next();
     }
 
     async validateTokenCtr(req: Request, res: Response, next: NextFunction) {

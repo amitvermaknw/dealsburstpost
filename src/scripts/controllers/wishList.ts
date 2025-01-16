@@ -1,5 +1,5 @@
 
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import WishListService from "../services/wishListService";
 import { DealsReview } from "../Interface/dealsInterface";
 
@@ -7,13 +7,15 @@ const wishList = new WishListService;
 
 class WishList {
 
-    async getWishListCtr(req: Request, res: Response) {
-        return await wishList.getWishList(req, res);
+    async getWishListCtr(req: Request, res: Response, next: NextFunction) {
+        await wishList.getWishList(req, res);
+        next();
     }
 
-    async updateWishListCtr(req: Request, res: Response) {
+    async updateWishListCtr(req: Request, res: Response, next: NextFunction) {
         const payload: DealsReview = req.body
-        return await wishList.updateWishList(payload, res);
+        await wishList.updateWishList(payload, res);
+        next();
     }
 }
 
