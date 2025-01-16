@@ -1,33 +1,21 @@
 
-import { NextFunction, Request, Response } from "express";
-import GuestTokenServices from "../services/guestTokenService";
+import { Request, Response } from "express";
+import DealsReviewsService from "../services/dealsReviewsService";
 
-const guestToken = new GuestTokenServices();
+const dealsReviwe = new DealsReviewsService;
 
 class DealsReviews {
-    async getReviewComments(req: Request, res: Response) {
-        return await guestToken.generateToke(req, res);
+    async getReviewCommentsCtr(req: Request, res: Response) {
+        return await dealsReviwe.getReviewComments(req, res);
     }
 
-    async addReviewComments(req: Request, res: Response, next: NextFunction) {
-        return await guestToken.validateToken(req, res, next);
+    async addReviewCommentsCtr(req: Request, res: Response) {
+        return await dealsReviwe.addReviewComments(req.body, res);
     }
 
-    // async addAdminLogToken(req: Request, res: Response) {
-    //     return await userLogin.addAdminLogToken(req, res);
-    // }
-
-    // async updateAdminTokenLog(req: Request, res: Response) {
-    //     return await userLogin.updateAdminTokenLog(req, res);
-    // }
-
-    // async tokenValidation(req: Request, res: Response) {
-    //     return await userLogin.tokenValidation(req, res);
-    // }
-
-    // async userSignup(req: Request, res: Response) {
-    //     return await userLogin.userSignup(req, res);
-    // }
+    async deleteReviewCommentsCtr(req: Request, res: Response) {
+        return await dealsReviwe.deleteReviewComments(req, res);
+    }
 }
 
 export default DealsReviews;

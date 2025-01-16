@@ -6,7 +6,7 @@ import axios from "axios";
 import "dotenv/config";
 
 const config = new Config();
-const db = config.initConfig().db;
+// const db = config.initConfig().db;
 const admin = config.initConfig().admin;
 const firebaseAPIKey = firebaseConfigKeys.apiKey;
 

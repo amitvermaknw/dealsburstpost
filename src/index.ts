@@ -19,7 +19,7 @@ app.use(cors());
 // Middleware for handling single file upload with field name 'image'
 //const uploadSingleImage = upload.single('image');
 app.use(express.json());
-app.use("/api/v1", router);
+app.use("/api/v1/review", router);
 
 app.get("/health", (req, res) => {
     logger.log("DealsBurst Post service is up and running");
