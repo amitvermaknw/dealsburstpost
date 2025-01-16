@@ -78,3 +78,6 @@ node_modules/
 
 # Yarn Integrity file
 .yarn-integrity
+
+firebaseKeys.json
+firebaseConfig.ts

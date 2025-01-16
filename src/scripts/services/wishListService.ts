@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import Config from "../utils/config";
 import "dotenv/config";
-import { QuerySnapshot, DocumentData, QueryDocumentSnapshot, Timestamp } from "firebase-admin/firestore";
+import { QuerySnapshot, DocumentData, QueryDocumentSnapshot } from "firebase-admin/firestore";
 import { DealsReview, ProductListProps } from "../Interface/dealsInterface";
 
 const config = new Config();
