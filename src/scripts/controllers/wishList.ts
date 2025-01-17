@@ -8,14 +8,12 @@ const wishList = new WishListService;
 class WishList {
 
     async getWishListCtr(req: Request, res: Response, next: NextFunction) {
-        await wishList.getWishList(req, res);
-        next();
+        res.send(await wishList.getWishList(req, res));
     }
 
     async updateWishListCtr(req: Request, res: Response, next: NextFunction) {
         const payload: DealsReview = req.body
-        await wishList.updateWishList(payload, res);
-        next();
+        res.send(await wishList.updateWishList(payload, res));
     }
 }
 
